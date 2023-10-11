@@ -1,0 +1,3 @@
+load_key: ../../data/train.csv.zip
+pipeline_key: ../../data/models/xgb_base.zip
+train_file_name: train.csv

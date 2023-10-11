@@ -1,5 +1,6 @@
 import pathlib
 import sys
+import warnings
 
 import hydra
 import pandas as pd
@@ -9,6 +10,9 @@ sys.path.append("../../")
 
 import src
 import src.pipeline
+
+warnings.filterwarnings("ignore", message="is_categorical_dtype is deprecated")
+warnings.filterwarnings("ignore", message="is_sparse is deprecated")
 
 TIME = "DateTime"
 FEATURES = ["Name", "SexuponOutcome", "AnimalType", "AgeuponOutcome", "Breed", "Color"]
