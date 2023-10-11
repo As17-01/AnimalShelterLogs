@@ -1,18 +1,17 @@
 import pathlib
 import sys
-import pandas as pd
-import zipfile
 import tempfile
-from hydra_slayer import Registry
+import zipfile
 
 import hydra
 import omegaconf
+import pandas as pd
+from hydra_slayer import Registry
 
 sys.path.append("../../")
 
 import src
 import src.pipeline
-
 
 TIME = "DateTime"
 FEATURES = ["Name", "SexuponOutcome", "AnimalType", "AgeuponOutcome", "Breed", "Color"]
@@ -30,7 +29,6 @@ def main(cfg: omegaconf.DictConfig) -> None:
 
         temp_dir = pathlib.Path(_temp_dir)
         data = pd.read_csv(temp_dir / cfg.data.train_file_name)
-
 
     cfg_dct = omegaconf.OmegaConf.to_container(cfg, resolve=True)
     registry = Registry()

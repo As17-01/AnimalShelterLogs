@@ -1,8 +1,8 @@
 import pathlib
 import sys
-import pandas as pd
 
 import hydra
+import pandas as pd
 from omegaconf import DictConfig
 
 sys.path.append("../../")
@@ -12,6 +12,7 @@ import src.pipeline
 
 TIME = "DateTime"
 FEATURES = ["Name", "SexuponOutcome", "AnimalType", "AgeuponOutcome", "Breed", "Color"]
+
 
 @hydra.main(config_path="configs", config_name="config", version_base="1.2")
 def main(cfg: DictConfig) -> None:
