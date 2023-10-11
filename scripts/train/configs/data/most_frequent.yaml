@@ -1,0 +1,3 @@
+load_key: ../../data/train.csv.zip
+pipeline_key: ../../data/models/most_frequent.zip
+train_file_name: train.csv

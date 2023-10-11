@@ -1,0 +1,67 @@
+[tool.poetry]
+name = "animal_shelter_logs"
+version = "0.1.0"
+description = ""
+authors = ["Aleksej Seliverstov <aseliverstov@nes.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+numpy = "^1.24.3"
+pandas = "^2.0.3"
+scikit-learn = "^1.3.0"
+kaggle = "^1.5.12"
+loguru = "^0.7.0"
+hydra_slayer = "^0.4.0"
+hydra-core = "^1.3.0"
+cloudpickle = "^2.2.0"
+
+
+[tool.poetry.dev-dependencies]
+pytest-cov = "^3.0.0"
+pytest = "^6.0"
+black = "^22.3.0"
+isort = "^5.8.0"
+flake8 = "^3.9.2"
+flake8-docstrings = "^1.6.0"
+pep8-naming = "^0.12.1"
+mypy = "^1.2.0"
+codespell = "^2.0.0"
+
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | blib2to3
+  | tests/data
+)/
+'''
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 120
+
+[tool.mypy]
+ignore_missing_imports = true
+strict_optional = true
+files = "src/"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

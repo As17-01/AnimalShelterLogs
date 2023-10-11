@@ -1,0 +1,3 @@
+load_key: ../../data/submissions
+file_name: sample_submission.csv
+submit_message: "test submit"
