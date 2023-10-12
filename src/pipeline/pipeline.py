@@ -69,6 +69,7 @@ class Pipeline:
         logger.info(f"Optimizing weights")
         probs = self.base_model.predict_proba(features)
 
+        # TODO: Rebalance instead
         self.weights = [1, 1, 1, 1, 1]
         predictions = np.argmax(probs * np.array(self.weights), axis=1)
         best_f1 = f1_score(y_true=target, y_pred=predictions, average='macro')
