@@ -14,10 +14,9 @@ def process_features(features: pd.DataFrame) -> pd.DataFrame:
 def process_sex(features: pd.DataFrame) -> pd.DataFrame:
     processed = features.copy()
 
-    processed["SexuponOutcome"] = processed["SexuponOutcome"].fillna("Unknown")
-
     splitted_sex = processed["SexuponOutcome"].str.split(expand=True)
     splitted_sex.columns = ["Condition", "Sex"]
+    splitted_sex.fillna("Unknown", inplace=True)
 
     processed = pd.concat([processed, splitted_sex], axis=1)
     processed.drop(columns="SexuponOutcome", inplace=True)

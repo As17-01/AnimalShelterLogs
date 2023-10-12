@@ -51,9 +51,13 @@ class Pipeline:
 
         logger.info(f"Formating datatypes")
         for feature_name in features.columns:
-            if feature_name != "num_age":
+            if feature_name not in ["num_age", "Num_colors", "Num_breeds"]:
                 features[feature_name] = features[feature_name].astype("category")
 
+        time_index = pd.to_datetime(time_index)
+        features["year"] = time_index.dt.year
+
+        # python main.py data=xgb_base pipeline=xgb_base
         logger.info(f"Starting train")
         self.base_model.fit(features, target)
 
@@ -66,13 +70,16 @@ class Pipeline:
 
         logger.info(f"Formating datatypes")
         for feature_name in features.columns:
-            if feature_name != "num_age":
+            if feature_name not in ["num_age", "Num_colors", "Num_breeds"]:
                 features[feature_name] = features[feature_name].astype("category")
+
+        time_index = pd.to_datetime(time_index)
+        features["year"] = time_index.dt.year
 
         logger.info(f"Making predictions")
         predictions = self.base_model.predict(features)
 
-        predictions = pd.Series(predictions)
+        predictions = pd.Series(predictions.ravel())
         return predictions
 
     def save(self, path: pathlib.Path):

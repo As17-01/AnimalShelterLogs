@@ -1,0 +1,17 @@
+_target_: src.pipeline.Pipeline
+base_model:
+  _target_: catboost.CatBoostClassifier
+  iterations: 100
+  depth: 3
+  learning_rate: 0.005
+  cat_features:
+    - Name
+    - AnimalType
+    - Condition
+    - Sex
+    - magnitude_age
+    - First_color
+    - Is_complex_color
+    - First_breed
+  silent: true
+mode: clas

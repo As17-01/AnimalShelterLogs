@@ -1,0 +1,8 @@
+load_key: ../../data/test.csv
+save_key: ../../data/submissions/cat_base.csv
+pipeline_keys:
+  - ../../data/models/cat_base0.zip
+  - ../../data/models/cat_base1.zip
+  - ../../data/models/cat_base2.zip
+  - ../../data/models/cat_base3.zip
+  - ../../data/models/cat_base4.zip

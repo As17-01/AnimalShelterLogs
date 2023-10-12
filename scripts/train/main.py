@@ -9,7 +9,7 @@ import hydra
 import omegaconf
 import pandas as pd
 from hydra_slayer import Registry
-from sklearn.model_selection import TimeSeriesSplit
+from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
 
 sys.path.append("../../")
@@ -43,7 +43,8 @@ def main(cfg: omegaconf.DictConfig) -> None:
     registry.add_from_module(src.pipeline, prefix="src.pipeline.")
     pipeline = registry.get_from_params(**cfg_dct["pipeline"])
 
-    kf = TimeSeriesSplit(n_splits=4)
+    # They are NOT splitted by time. I can include TIME as a feature
+    kf = KFold(n_splits=5, shuffle=True, random_state=100)
 
     for i, (train_index, val_index) in enumerate(kf.split(data, data[TARGET])):
         logger.info(f"Fold {i}")
@@ -55,7 +56,7 @@ def main(cfg: omegaconf.DictConfig) -> None:
         predictions = pipeline.predict(time_index=val[TIME], features=val[FEATURES])
         logger.info(f"ACC: {accuracy_score(y_true=val[TARGET], y_pred=predictions)}")
     
-        pipeline.save(pipeline_key)
+        pipeline.save(pipeline_key / (cfg.data.pipeline_name + f"{i}.zip"))
 
 
 if __name__ == "__main__":
