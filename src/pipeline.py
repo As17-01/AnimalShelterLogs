@@ -38,16 +38,16 @@ class Pipeline:
 
         self.weights = []
 
-        self.name_encoder = CategoricalEncoder(col_name="Name", rare_threshold=20)
-        self.color_encoder = CategoricalEncoder(col_name="Color", rare_threshold=20)
-        self.breed_encoder = CategoricalEncoder(col_name="Breed", rare_threshold=20)
+        self.name_encoder = CategoricalEncoder(col_name="Name", callback=process_names, rare_threshold=20)
+        self.color_encoder = CategoricalEncoder(col_name="Color", callback=process_colors, rare_threshold=20)
+        self.breed_encoder = CategoricalEncoder(col_name="Breed", callback=process_breeds, rare_threshold=20)
 
     def prepare_data(self, time_index: pd.Series, features=pd.DataFrame) -> pd.DataFrame:
         logger.info(f"Processing features")
-        features = process_features(features)
-        features = self.name_encoder.encode(features, callback=process_names)
-        features = self.color_encoder.encode(features, callback=process_colors)
-        features = self.breed_encoder.encode(features, callback=process_breeds)
+        features = process_features(features=features)
+        features = self.name_encoder.encode(features=features)
+        features = self.color_encoder.encode(features=features)
+        features = self.breed_encoder.encode(features=features)
 
         logger.info(f"Formating datatypes")
         for feature_name in features.columns:
@@ -79,9 +79,9 @@ class Pipeline:
 
     def fit(self, time_index: pd.Series, features=pd.DataFrame, target=pd.Series):
         logger.info(f"Fitting encoders")
-        self.name_encoder.fit(features, callback=process_names)
-        self.color_encoder.fit(features, callback=process_colors)
-        self.breed_encoder.fit(features, callback=process_breeds)
+        self.name_encoder.fit(features=features)
+        self.color_encoder.fit(features=features)
+        self.breed_encoder.fit(features=features)
 
         logger.info(f"Preparing data")
         features = self.prepare_data(time_index=time_index, features=features)

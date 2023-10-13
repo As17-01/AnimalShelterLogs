@@ -7,21 +7,22 @@ import pandas as pd
 
 
 class CategoricalEncoder:
-    def __init__(self, col_name: str, rare_threshold: int = 20) -> None:
+    def __init__(self, col_name: str, callback: Callable, rare_threshold: int = 20) -> None:
         self.col_name = col_name
+        self.callback = callback
         self.mapping: Dict[str, int] = {}
         self.rare_threshold = rare_threshold
 
-    def fit(self, features: pd.DataFrame, callback: Callable):
-        features, cat_cols = callback(features)
+    def fit(self, features: pd.DataFrame):
+        features, cat_cols = self.callback(features)
 
         melted = features[cat_cols].melt(value_name="value")
         mapping = melted.groupby("value")["value"].count()
 
         self.mapping = mapping[mapping > self.rare_threshold].to_dict()
 
-    def encode(self, features: pd.DataFrame, callback: Callable) -> pd.DataFrame:
-        features, cat_cols = callback(features)
+    def encode(self, features: pd.DataFrame) -> pd.DataFrame:
+        features, cat_cols = self.callback(features)
 
         for col_name in cat_cols:
             features[col_name] = features[col_name].map(lambda x: self.mapping[x] if x in self.mapping else 1)
