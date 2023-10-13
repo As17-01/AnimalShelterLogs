@@ -1,16 +1,15 @@
 import pathlib
 import sys
 import warnings
-from loguru import logger
 
 import hydra
 import pandas as pd
+from loguru import logger
 from omegaconf import DictConfig
 
 sys.path.append("../../")
 
 import src
-import src.pipeline
 
 warnings.filterwarnings("ignore", message="is_categorical_dtype is deprecated")
 warnings.filterwarnings("ignore", message="is_sparse is deprecated")
@@ -30,7 +29,7 @@ def main(cfg: DictConfig) -> None:
     vote_list = []
     for p_key in cfg.data.pipeline_keys:
         logger.info(f"Current pipeline: {p_key}")
-        pipeline = src.pipeline.Pipeline.load(pathlib.Path(p_key))
+        pipeline = src.Pipeline.load(pathlib.Path(p_key))
         vote_list.append(pipeline.predict(time_index=data[TIME], features=data[FEATURES]))
 
     logger.info(f"Calculating votes")

@@ -3,21 +3,19 @@ import sys
 import tempfile
 import warnings
 import zipfile
-from loguru import logger
 
 import hydra
+import numpy as np
 import omegaconf
 import pandas as pd
-import numpy as np
 from hydra_slayer import Registry
-from sklearn.model_selection import KFold
+from loguru import logger
 from sklearn.metrics import f1_score
-
+from sklearn.model_selection import KFold
 
 sys.path.append("../../")
 
 import src
-import src.pipeline
 
 warnings.filterwarnings("ignore", message="is_categorical_dtype is deprecated")
 warnings.filterwarnings("ignore", message="is_sparse is deprecated")
@@ -77,7 +75,7 @@ def main(cfg: omegaconf.DictConfig) -> None:
     cfg_dct = omegaconf.OmegaConf.to_container(cfg, resolve=True)
     registry = Registry()
 
-    registry.add_from_module(src.pipeline, prefix="src.pipeline.")
+    registry.add_from_module(src, prefix="src.")
     pipeline = registry.get_from_params(**cfg_dct["pipeline"])
 
     # They are NOT splitted by time. I can include TIME as a feature
@@ -100,7 +98,7 @@ def main(cfg: omegaconf.DictConfig) -> None:
         predictions = pipeline.predict(time_index=val[TIME], features=val[FEATURES])
         logger.info(f"Non-averaged F1: {f1_score(y_true=val[TARGET], y_pred=predictions, average=None)}")
         logger.info(f"F1: {f1_score(y_true=val[TARGET], y_pred=predictions, average='macro')}")
-    
+
         pipeline.save(pipeline_key / (cfg.data.pipeline_name + f"{i}.zip"))
 
 

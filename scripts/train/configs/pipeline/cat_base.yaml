@@ -1,4 +1,4 @@
-_target_: src.pipeline.Pipeline
+_target_: src.Pipeline
 base_model:
   _target_: catboost.CatBoostClassifier
   iterations: 100

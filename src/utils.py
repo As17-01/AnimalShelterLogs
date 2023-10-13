@@ -33,27 +33,27 @@ def process_age(features: pd.DataFrame) -> pd.DataFrame:
     processed["AgeuponOutcome"] = processed["AgeuponOutcome"].str.replace("days", "day")
 
     splitted_age = processed["AgeuponOutcome"].str.split(expand=True)
-    splitted_age.columns = ["num_age", "magnitude_age"]
+    splitted_age.columns = ["Num_age", "Magnitude_age"]
 
-    splitted_age["num_age"] = splitted_age["num_age"].astype("float")
+    splitted_age["Num_age"] = splitted_age["Num_age"].astype("float")
 
-    is_year = splitted_age["magnitude_age"] == "year"
-    splitted_age.loc[is_year, "num_age"] = 365 * splitted_age.loc[is_year, "num_age"]
-    is_month = splitted_age["magnitude_age"] == "month"
-    splitted_age.loc[is_month, "num_age"] = 30 * splitted_age.loc[is_month, "num_age"]
-    is_week = splitted_age["magnitude_age"] == "week"
-    splitted_age.loc[is_week, "num_age"] = 7 * splitted_age.loc[is_week, "num_age"]
+    is_year = splitted_age["Magnitude_age"] == "year"
+    splitted_age.loc[is_year, "Num_age"] = 365 * splitted_age.loc[is_year, "Num_age"]
+    is_month = splitted_age["Magnitude_age"] == "month"
+    splitted_age.loc[is_month, "Num_age"] = 30 * splitted_age.loc[is_month, "Num_age"]
+    is_week = splitted_age["Magnitude_age"] == "week"
+    splitted_age.loc[is_week, "Num_age"] = 7 * splitted_age.loc[is_week, "Num_age"]
 
-    mean_num_age = splitted_age["num_age"].mean(skipna=True)
+    mean_num_age = splitted_age["Num_age"].mean(skipna=True)
 
-    splitted_age["num_age"] = splitted_age["num_age"].fillna(mean_num_age)
-    is_zero = splitted_age["num_age"] == 0.0
-    splitted_age.loc[is_zero, "num_age"] = mean_num_age
+    splitted_age["Num_age"] = splitted_age["Num_age"].fillna(mean_num_age)
+    is_zero = splitted_age["Num_age"] == 0.0
+    splitted_age.loc[is_zero, "Num_age"] = mean_num_age
 
-    splitted_age["num_age"] = np.log(splitted_age["num_age"])
-    splitted_age["num_age"] = splitted_age["num_age"] - np.mean(splitted_age["num_age"])
+    splitted_age["Num_age"] = np.log(splitted_age["Num_age"])
+    splitted_age["Num_age"] = splitted_age["Num_age"] - np.mean(splitted_age["Num_age"])
 
-    splitted_age["magnitude_age"] = splitted_age["magnitude_age"].fillna("Unknown")
+    splitted_age["Magnitude_age"] = splitted_age["Magnitude_age"].fillna("Unknown")
 
     processed = pd.concat([processed, splitted_age], axis=1)
     processed.drop(columns="AgeuponOutcome", inplace=True)
