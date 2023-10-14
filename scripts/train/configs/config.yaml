@@ -1,3 +1,3 @@
 defaults:
-  - data: ???
-  - pipeline: ???
+  - data: xgb_base
+  - pipeline: xgb_base

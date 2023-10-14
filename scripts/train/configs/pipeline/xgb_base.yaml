@@ -2,7 +2,13 @@ _target_: src.Pipeline
 base_model:
   _target_: xgboost.XGBClassifier
   enable_categorical: true
-  n_estimators: 100
-  max_depth: 3
+  n_estimators: 200
+  max_depth: 9
   learning_rate: 0.005
-mode: clas
+  eta: 0.2
+  gamma: 0.0005
+oversampler:
+  _target_: src.Oversampler
+  baseline_class: 0
+  random_state: 120
+  

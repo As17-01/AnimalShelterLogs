@@ -2,4 +2,7 @@ _target_: src.Pipeline
 base_model:
   _target_: sklearn.dummy.DummyClassifier
   strategy: most_frequent
-mode: clas
+oversampler:
+  _target_: src.Oversampler
+  baseline_class: 0
+  random_state: 120

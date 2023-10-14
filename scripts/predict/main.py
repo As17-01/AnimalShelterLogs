@@ -33,7 +33,6 @@ def main(cfg: DictConfig) -> None:
         vote_list.append(pipeline.predict(time_index=data[TIME], features=data[FEATURES]))
 
     logger.info(f"Calculating votes")
-    # Maybe regression instead of classification?
     outcome = []
     num_voters = len(cfg.data.pipeline_keys)
     for record_id, _ in enumerate(vote_list[0]):

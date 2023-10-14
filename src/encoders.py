@@ -59,13 +59,13 @@ def process_breeds(features: pd.DataFrame) -> Tuple[pd.DataFrame, List[str]]:
 
     num_breeds = (features["Breed"].str.count("/") + 1).astype("int")
     first_breed = features["Breed"].str.split(pat="/", expand=True)[0].fillna("No")
-    second_breed = features["Breed"].str.split(pat="/", expand=True)[1].fillna("No")
-    is_complex = (first_breed.str.count(" ") + second_breed.str.count(" ")).astype("int")
+    # second_breed = features["Breed"].str.split(pat="/", expand=True)[1].fillna("No")
+    is_complex = (first_breed.str.count(" ")).astype("int")
 
-    breeds = pd.concat([first_breed, second_breed, num_breeds, is_complex], axis=1)
-    breeds.columns = ["First_breed", "Second_breed", "Num_breeds", "Is_complex_breed"]
+    breeds = pd.concat([first_breed, num_breeds, is_complex], axis=1)
+    breeds.columns = ["First_breed", "Num_breeds", "Is_complex_breed"]
 
     features = pd.concat([features, breeds], axis=1)
     features.drop(columns="Breed", inplace=True)
 
-    return features, ["First_breed", "Second_breed"]
+    return features, ["First_breed"]
