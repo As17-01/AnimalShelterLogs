@@ -65,7 +65,10 @@ def process_breeds(features: pd.DataFrame) -> Tuple[pd.DataFrame, List[str]]:
     breeds = pd.concat([first_breed, num_breeds, is_complex], axis=1)
     breeds.columns = ["First_breed", "Num_breeds", "Is_complex_breed"]
 
+    breeds["Is_mix"] = breeds["First_breed"].str.contains("Mix").astype("category")
+    breeds["First_breed"] = breeds["First_breed"].str.replace(" Mix", "")
+
     features = pd.concat([features, breeds], axis=1)
     features.drop(columns="Breed", inplace=True)
 
-    return features, ["First_breed"]
+    return features, ["First_breed", "Is_mix"]
