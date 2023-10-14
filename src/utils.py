@@ -72,5 +72,6 @@ def process_time(features: pd.DataFrame, time: pd.Series) -> pd.DataFrame:
     processed["week"] = time_index.dt.isocalendar().week
     processed["day"] = time_index.dt.day
     processed["dow"] = time_index.dt.dayofweek
+    processed["hour"] = time_index.dt.hour
 
     return processed
