@@ -1,3 +1,4 @@
 load_key: ../../data/test.csv
 save_key: ../../data/submissions/most_frequent.csv
-pipeline_key: ../../data/models/most_frequent.zip
+pipeline_keys:
+  - ../../data/models/most_frequent.zip
