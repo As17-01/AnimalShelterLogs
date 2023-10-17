@@ -77,7 +77,7 @@ def main(cfg: omegaconf.DictConfig) -> None:
         lambda trial: objective(trial, data, registry, cfg),
         catch=(Exception,),
         gc_after_trial=True,
-        n_trials=4,
+        n_trials=100,
     )
 
 
