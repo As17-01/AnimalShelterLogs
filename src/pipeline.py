@@ -81,6 +81,5 @@ class Pipeline:
             weights = pickle.load(open(output_path / f"weights.pkl", "rb"))
             base_model = pickle.load(open(output_path / f"base_model.pkl", "rb"))
 
-        loaded_instance = cls(base_model=base_model, **par)
-        loaded_instance.weights = weights
+        loaded_instance = cls(base_model=base_model, weights=weights, **par)
         return loaded_instance

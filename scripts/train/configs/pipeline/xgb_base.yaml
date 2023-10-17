@@ -3,7 +3,7 @@ base_model:
   _target_: xgboost.XGBClassifier
   enable_categorical: true
   n_estimators: 200
-  max_depth: 8
-  learning_rate: 0.004
-  gamma: 0.0004
-weights: [6.342, 4.484, 7.036, 8.988, 9.327]
+  max_depth: 7
+  learning_rate: 0.10707364889452776
+  gamma: 0.004405194722325853
+weights: [0.524554751471455, 0.5751646212672618, 0.6912641656697686, 0.9686334173655191, 0.9153012804565787]
