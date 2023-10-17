@@ -14,10 +14,9 @@ from src.utils import process_time
 
 
 class Pipeline:
-    def __init__(self, base_model: Any):
+    def __init__(self, base_model: Any, weights: List[float]):
         self.base_model = base_model
-
-        self.weights: List[float] = []
+        self.weights = weights
 
     def prepare_data(self, time_index: pd.Series, features: pd.DataFrame) -> pd.DataFrame:
         # logger.info(f"Processing features")
@@ -37,23 +36,6 @@ class Pipeline:
 
         return features
 
-    def optimize_weights(self, features: pd.DataFrame, target=pd.Series):
-        probs = self.base_model.predict_proba(features)
-
-        # TODO: Rebalance instead
-        self.weights = [6.342, 4.484, 7.036, 8.988, 9.327]
-        # from sklearn.metrics import f1_score
-        # predictions = np.argmax(probs * np.array(self.weights), axis=1)
-        # best_f1 = f1_score(y_true=target, y_pred=predictions, average="macro")
-        # for i in range(0, 1000):
-        #     candidate = np.random.uniform(0, 10, 5).tolist()
-
-        #     predictions = np.argmax(probs * np.array(candidate), axis=1)
-        #     f1 = f1_score(y_true=target, y_pred=predictions, average='macro')
-        #     if f1 > best_f1:
-        #         best_f1 = f1
-        #         self.weights = candidate
-        # logger.info(self.weights)
 
     def fit(self, time_index: pd.Series, features=pd.DataFrame, target=pd.Series):
         # logger.info(f"Preparing data")
@@ -61,9 +43,7 @@ class Pipeline:
 
         # logger.info(f"Starting train")
         self.base_model.fit(features, target)
-
-        # logger.info(f"Optimizing weights")
-        self.optimize_weights(features, target)
+        
 
     def predict(self, time_index: pd.Series, features=pd.DataFrame) -> pd.Series:
         # logger.info(f"Preparing data")

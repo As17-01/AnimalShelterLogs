@@ -1,0 +1,2 @@
+load_key: ../../data/train.csv.zip
+train_file_name: train.csv

@@ -5,4 +5,3 @@ pipeline_keys:
   - ../../data/models/xgb_base1.zip
   - ../../data/models/xgb_base2.zip
   - ../../data/models/xgb_base3.zip
-  - ../../data/models/xgb_base4.zip

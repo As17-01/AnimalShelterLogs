@@ -6,3 +6,4 @@ base_model:
   max_depth: 8
   learning_rate: 0.004
   gamma: 0.0004
+weights: [6.342, 4.484, 7.036, 8.988, 9.327]
