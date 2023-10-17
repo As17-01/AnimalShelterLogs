@@ -6,15 +6,12 @@ import zipfile
 
 import hydra
 import omegaconf
+import optuna
 import pandas as pd
 from hydra_slayer import Registry
 from loguru import logger
 from sklearn.metrics import f1_score
 from sklearn.model_selection import KFold
-
-from typing import Any, List
-import optuna
-
 
 sys.path.append("../../")
 
@@ -54,7 +51,6 @@ def objective(
         metric_history.append(f1_score(y_true=val[TARGET], y_pred=predictions, average="macro"))
 
     return sum(metric_history) / len(metric_history)
-
 
 
 @hydra.main(config_path="configs", config_name="config", version_base="1.2")

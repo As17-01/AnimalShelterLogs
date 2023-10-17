@@ -36,14 +36,12 @@ class Pipeline:
 
         return features
 
-
     def fit(self, time_index: pd.Series, features=pd.DataFrame, target=pd.Series):
         # logger.info(f"Preparing data")
         features = self.prepare_data(time_index=time_index, features=features)
 
         # logger.info(f"Starting train")
         self.base_model.fit(features, target)
-        
 
     def predict(self, time_index: pd.Series, features=pd.DataFrame) -> pd.Series:
         # logger.info(f"Preparing data")
