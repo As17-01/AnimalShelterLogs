@@ -1,4 +1,2 @@
 load_key: ../../data/train.csv.zip
-pipeline_key: ../../data/models
-pipeline_name: most_frequent
 train_file_name: train.csv
