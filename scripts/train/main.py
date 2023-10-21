@@ -2,6 +2,7 @@ import pathlib
 import sys
 import tempfile
 import warnings
+import numpy as np
 import zipfile
 
 import hydra
@@ -41,6 +42,10 @@ def main(cfg: omegaconf.DictConfig) -> None:
 
     registry.add_from_module(src, prefix="src.")
     pipeline = registry.get_from_params(**cfg_dct["pipeline"])
+
+    np.random.seed(120)
+    indices = data.index.isin(np.random.choice(range(len(data)), 5000))
+    data = data.iloc[~indices]
 
     kf = KFold(n_splits=4, shuffle=True, random_state=200)
 

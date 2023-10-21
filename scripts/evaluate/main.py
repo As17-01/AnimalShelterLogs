@@ -1,6 +1,7 @@
 import pathlib
 import sys
 import warnings
+import numpy as np
 import zipfile
 import tempfile
 from sklearn.metrics import f1_score
@@ -34,30 +35,23 @@ def main(cfg: DictConfig) -> None:
         temp_dir = pathlib.Path(_temp_dir)
         data = pd.read_csv(temp_dir / cfg.data.train_file_name)
 
-    kf = KFold(n_splits=2, shuffle=True, random_state=200)
+    np.random.seed(120)
+    test = data.iloc[np.random.choice(range(len(data)), 5000)]
 
-    metric_history = []
-    for i, (train_index, val_index) in enumerate(kf.split(data, data[TARGET])):
-        logger.info(f"Fold {i}")
+    vote_list = []
+    for p_key in cfg.data.pipeline_keys:
+        pipeline = src.Pipeline.load(pathlib.Path(p_key))
+        vote_list.append(pipeline.predict(time_index=test[TIME], features=test[FEATURES]))
 
-        data = data.iloc[train_index]
+    outcome = []
+    num_voters = len(cfg.data.pipeline_keys)
+    for record_id, _ in enumerate(vote_list[0]):
+        votes = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0}
+        for vote_id in range(num_voters):
+            votes[vote_list[vote_id][record_id]] += 1
+        outcome.append(max(votes, key=votes.get))
 
-        vote_list = []
-        for p_key in cfg.data.pipeline_keys:
-            pipeline = src.Pipeline.load(pathlib.Path(p_key))
-            vote_list.append(pipeline.predict(time_index=data[TIME], features=data[FEATURES]))
-
-        outcome = []
-        num_voters = len(cfg.data.pipeline_keys)
-        for record_id, _ in enumerate(vote_list[0]):
-            votes = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0}
-            for vote_id in range(num_voters):
-                votes[vote_list[vote_id][record_id]] += 1
-            outcome.append(max(votes, key=votes.get))
-
-        metric_history.append(f1_score(y_true=data[TARGET], y_pred=outcome, average="macro"))
-
-    logger.info(f"F1: {sum(metric_history) / len(metric_history)}")
+    logger.info(f"F1: {f1_score(y_true=test[TARGET], y_pred=outcome, average='macro')}")
 
 
 
