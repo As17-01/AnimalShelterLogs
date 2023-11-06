@@ -42,7 +42,7 @@ def main(cfg: omegaconf.DictConfig) -> None:
     registry.add_from_module(src, prefix="src.")
     pipeline = registry.get_from_params(**cfg_dct["pipeline"])
 
-    kf = KFold(n_splits=4, shuffle=True, random_state=200)
+    kf = KFold(n_splits=5, shuffle=True, random_state=200)
 
     metric_history = []
     for i, (train_index, val_index) in enumerate(kf.split(data, data[TARGET])):

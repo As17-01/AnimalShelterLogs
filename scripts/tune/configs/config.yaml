@@ -1,2 +1,2 @@
 defaults:
-  - data: xgb_base
+  - data: boosting_base

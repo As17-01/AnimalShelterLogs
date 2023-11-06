@@ -1,4 +1,4 @@
 load_key: ../../data/train.csv.zip
 pipeline_key: ../../data/models
-pipeline_name: xgb_base
+pipeline_name: boosting_base
 train_file_name: train.csv
