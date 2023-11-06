@@ -37,7 +37,7 @@ def objective(
     pipeline = registry.get_from_params(**pipeline_config)
     logger.info(f"Selected config: {trial.params}")
 
-    kf = KFold(n_splits=4, shuffle=True, random_state=100)
+    kf = KFold(n_splits=5, shuffle=True, random_state=100)
 
     metric_history = []
     for i, (train_index, val_index) in enumerate(kf.split(data, data[TARGET])):

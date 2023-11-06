@@ -79,6 +79,7 @@ def process_age(features: pd.DataFrame) -> pd.DataFrame:
 
     processed = pd.concat([processed, splitted_age], axis=1)
     processed.drop(columns="AgeuponOutcome", inplace=True)
+    processed.drop(columns="Magnitude_age", inplace=True)
 
     return processed
 
