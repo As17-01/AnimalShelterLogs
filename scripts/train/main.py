@@ -51,13 +51,19 @@ def main(cfg: omegaconf.DictConfig) -> None:
         train = data.iloc[train_index]
         val = data.iloc[val_index]
 
-        pipeline.fit(time_index=train[TIME], features=train[FEATURES], target=train[TARGET])
+        score = 0
+        for state in [400, 500, 600]:
+            pipeline.base_model.random_state = pipeline.base_model.random_state + state
+            pipeline.fit(time_index=train[TIME], features=train[FEATURES], target=train[TARGET])
 
-        predictions = pipeline.predict(time_index=val[TIME], features=val[FEATURES])
+            predictions = pipeline.predict(time_index=val[TIME], features=val[FEATURES])
 
-        pipeline.save(pipeline_key / (cfg.data.pipeline_name + f"{i}.zip"))
+            pipeline.save(pipeline_key / (cfg.data.pipeline_name + f"{i}_{pipeline.base_model.random_state}.zip"))
 
-        metric_history.append(f1_score(y_true=val[TARGET], y_pred=predictions, average="macro"))
+            score += f1_score(y_true=val[TARGET], y_pred=predictions, average="macro") / 3
+        
+        logger.info(f"Fold {i} F1: {score}")
+        metric_history.append(score)
 
     logger.info(f"F1: {sum(metric_history) / len(metric_history)}")
 

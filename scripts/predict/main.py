@@ -30,7 +30,7 @@ def main(cfg: DictConfig) -> None:
     for p_key in cfg.data.pipeline_keys:
         logger.info(f"Current pipeline: {p_key}")
         pipeline = src.Pipeline.load(pathlib.Path(p_key))
-        vote_list.append(pipeline.predict(time_index=data[TIME], features=data[FEATURES]))
+        vote_list.append(pipeline.predict_proba(time_index=data[TIME], features=data[FEATURES]))
 
     logger.info(f"Calculating votes")
     outcome = []
@@ -38,7 +38,8 @@ def main(cfg: DictConfig) -> None:
     for record_id, _ in enumerate(vote_list[0]):
         votes = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0}
         for vote_id in range(num_voters):
-            votes[vote_list[vote_id][record_id]] += 1
+            for i, _ in enumerate(votes):
+                votes[i] += vote_list[vote_id][record_id][i]
         outcome.append(max(votes, key=votes.get))
 
     data["Outcome"] = pd.Series(outcome)
