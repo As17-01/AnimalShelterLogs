@@ -1,8 +1,18 @@
 load_key: ../../data/test.csv
 save_key: ../../data/submissions/boosting_base.csv
 pipeline_keys:
-  - ../../data/models/boosting_base0.zip
-  - ../../data/models/boosting_base1.zip
-  - ../../data/models/boosting_base2.zip
-  - ../../data/models/boosting_base3.zip
-  - ../../data/models/boosting_base4.zip
+  - ../../data/models/boosting_base0_550.zip
+  - ../../data/models/boosting_base0_1050.zip
+  - ../../data/models/boosting_base0_1650.zip
+  - ../../data/models/boosting_base1_2050.zip
+  - ../../data/models/boosting_base1_2550.zip
+  - ../../data/models/boosting_base1_3150.zip
+  - ../../data/models/boosting_base2_3550.zip
+  - ../../data/models/boosting_base2_4050.zip
+  - ../../data/models/boosting_base2_4650.zip
+  - ../../data/models/boosting_base3_5050.zip
+  - ../../data/models/boosting_base3_5550.zip
+  - ../../data/models/boosting_base3_6150.zip
+  - ../../data/models/boosting_base4_6550.zip
+  - ../../data/models/boosting_base4_7050.zip
+  - ../../data/models/boosting_base4_7650.zip

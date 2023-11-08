@@ -7,7 +7,7 @@ import optuna
 from loguru import logger
 
 
-def _choose_xgb(trial: optuna.Trial, config: omegaconf.DictConfig) -> Dict[str, Any]:
+def _choose_boosting(trial: optuna.Trial, config: omegaconf.DictConfig) -> Dict[str, Any]:
     model_config = {
         "_target_": "sklearn.ensemble.GradientBoostingClassifier",
     }
@@ -35,7 +35,7 @@ def _choose_weights(trial: optuna.Trial, config: omegaconf.DictConfig) -> List[f
 def choose_pipeline(trial: optuna.Trial, config: omegaconf.DictConfig) -> Dict[str, Any]:
     """Create pipeline config for trial."""
     logger.info("Choosing model")
-    model_config = _choose_xgb(trial, config)
+    model_config = _choose_boosting(trial, config)
     # model_config = {
     #     "_target_": "sklearn.ensemble.GradientBoostingClassifier",
     #     "n_estimators": 200,

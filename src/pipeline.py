@@ -66,6 +66,20 @@ class Pipeline:
 
         return predictions
 
+    def predict_proba(self, time_index: pd.Series, features=pd.DataFrame) -> pd.Series:
+        # logger.info(f"Preparing data")
+        features = self.prepare_data(time_index=time_index, features=features)
+
+        cat_columns = [col_name for col_name in features.columns if features[col_name].dtypes == "category"]
+        for i, col_name in enumerate(cat_columns):
+            features[col_name] = self.encoders[i].transform(features[col_name])
+
+        # logger.info(f"Making predictions")
+        probs = self.base_model.predict_proba(features)
+        predictions = probs * np.array(self.weights)
+
+        return predictions
+
     def save(self, path: pathlib.Path):
         with tempfile.TemporaryDirectory() as _output_path:
             output_path = pathlib.Path(_output_path)
