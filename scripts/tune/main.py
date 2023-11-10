@@ -11,7 +11,7 @@ import pandas as pd
 from hydra_slayer import Registry
 from loguru import logger
 from sklearn.metrics import f1_score
-from sklearn.model_selection import KFold
+from sklearn.model_selection import StratifiedKFold
 
 sys.path.append("../../")
 
@@ -37,18 +37,23 @@ def objective(
     pipeline = registry.get_from_params(**pipeline_config)
     logger.info(f"Selected config: {trial.params}")
 
-    kf = KFold(n_splits=5, shuffle=True, random_state=100)
+    kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=100)
 
     metric_history = []
     for i, (train_index, val_index) in enumerate(kf.split(data, data[TARGET])):
         train = data.iloc[train_index]
         val = data.iloc[val_index]
 
-        pipeline.fit(time_index=train[TIME], features=train[FEATURES], target=train[TARGET])
+        score = 0
+        for state in [400, 500, 600]:
+            pipeline.base_model.random_state = state
+            pipeline.fit(time_index=train[TIME], features=train[FEATURES], target=train[TARGET])
 
-        predictions = pipeline.predict(time_index=val[TIME], features=val[FEATURES])
+            predictions = pipeline.predict(time_index=val[TIME], features=val[FEATURES])
 
-        metric_history.append(f1_score(y_true=val[TARGET], y_pred=predictions, average="macro"))
+            score += f1_score(y_true=val[TARGET], y_pred=predictions, average="macro") / 3
+
+        metric_history.append(score)
 
     return sum(metric_history) / len(metric_history)
 

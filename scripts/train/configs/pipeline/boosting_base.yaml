@@ -1,9 +1,9 @@
 _target_: src.Pipeline
 base_model:
   _target_: sklearn.ensemble.GradientBoostingClassifier
-  n_estimators: 75
-  max_leaf_nodes: 222
-  max_depth: 7
-  learning_rate: 0.05443369714721865
+  n_estimators: 225
+  max_leaf_nodes: 32
+  max_depth: 6
+  learning_rate: 0.06293431706129048
   random_state: 150
-weights: [0.524554751471455, 0.5751646212672618, 0.6912641656697686, 0.9686334173655191, 0.9153012804565787]
+weights: [0.45503239000937545, 0.5058578950065271, 0.9245227542338873, 0.9212608740121339, 0.7292826626955986]
